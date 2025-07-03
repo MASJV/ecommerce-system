@@ -1,5 +1,6 @@
 package com.example.ecommerce_system.controller;
 
+import com.example.ecommerce_system.exception.InsufficientProductQuantityException;
 import com.example.ecommerce_system.exception.ProductNotFoundException;
 import com.example.ecommerce_system.exception.UserNotFoundException;
 import com.example.ecommerce_system.model.dto.AddToCartDto;
@@ -73,7 +74,7 @@ public class UserController {
         try {
             User user = userService.addToCart(userId, addToCartDto);
             return ResponseEntity.ok(user);
-        } catch (UserNotFoundException | ProductNotFoundException ex) {
+        } catch (UserNotFoundException | ProductNotFoundException | InsufficientProductQuantityException ex) {
             return ResponseEntity.status(400).build();
         } catch (Exception ex) {
             return ResponseEntity.status(500).build();

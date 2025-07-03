@@ -11,6 +11,10 @@ import lombok.Data;
 public class AddToCartDto {
     private int productId;
     private int quantity;
+    // if multiple endpoints of add to cart are hit then multiple same products are added
+    // rather than only quantity increment(make sure it does not exceed the actual quanity)
+    // in order for this to happen make sure the product is there in cart then increment in quantity
+    // otherwise add
 }
 
 /**

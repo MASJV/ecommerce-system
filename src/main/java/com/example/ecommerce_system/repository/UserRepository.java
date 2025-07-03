@@ -1,5 +1,6 @@
 package com.example.ecommerce_system.repository;
 
+import com.example.ecommerce_system.exception.InsufficientProductQuantityException;
 import com.example.ecommerce_system.exception.ProductNotFoundException;
 import com.example.ecommerce_system.exception.UserNotFoundException;
 import com.example.ecommerce_system.model.entity.Product;
@@ -60,11 +61,23 @@ public class UserRepository implements IUserRepository{
     }
 
     @Override
-    public void addToCart(User user , Product product, int quantity) {
-        Product cartProduct = new Product(product.getProductId(), product.getName(), product.getDescription(),
-                quantity, product.getAvgRating(), product.getTotalRating());
-        user.addToCart(cartProduct);
+    public void addToCart(User user, Product product, int quantity) throws InsufficientProductQuantityException{ // alternate way is to override .equals() method
+        if(quantity > product.getQuantity()) throw new InsufficientProductQuantityException("Requested quantity not available in stock");
+        boolean found = false;
+        for(Product cartProduct : user.getCart()) {
+            if(cartProduct.getProductId() == product.getProductId()) {
+                cartProduct.setQuantity(cartProduct.getQuantity() + quantity);
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            Product cartProduct = new Product(product.getProductId(), product.getName(), product.getDescription(),
+                    quantity, product.getAvgRating(), product.getTotalRating());
+            user.addToCart(cartProduct);
+        }
     }
+
 
     @Override
     public List<Product> placeOrderFromCart(int userId) throws UserNotFoundException, ProductNotFoundException {
