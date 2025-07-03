@@ -15,4 +15,5 @@ public interface IUserRepository {
     User updateAUser(int userId, String name) throws UserNotFoundException;
     void addToCart(User user, Product product, int quantity) throws InsufficientProductQuantityException;
     List<Product> placeOrderFromCart(int userId) throws UserNotFoundException, ProductNotFoundException;
+    void deleteFromCart(User user, Product product, int quantity) throws ProductNotFoundException, InsufficientProductQuantityException;
 }

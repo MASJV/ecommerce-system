@@ -92,4 +92,28 @@ public class UserRepository implements IUserRepository{
         return order;
     }
 
+    @Override
+    public void deleteFromCart(User user, Product product, int quantity) throws ProductNotFoundException, InsufficientProductQuantityException{
+        boolean found = false;
+        for(Product cartProduct : user.getCart()) {
+            if(cartProduct.getProductId() == product.getProductId()) {
+                if(cartProduct.getQuantity() < quantity){
+                    throw new InsufficientProductQuantityException("Cannot remove the specified quantity: " +
+                            "you only have " + cartProduct.getQuantity() + " of this item in your cart.");
+                }
+                else{
+                    cartProduct.setQuantity(cartProduct.getQuantity() - quantity);
+                    if(cartProduct.getQuantity() == 0) {
+                        user.getCart().remove(cartProduct);
+                    }
+                }
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            throw new ProductNotFoundException("Product Not Found");
+        }
+    }
+
 }

@@ -5,6 +5,7 @@ import com.example.ecommerce_system.exception.ProductNotFoundException;
 import com.example.ecommerce_system.exception.UserNotFoundException;
 import com.example.ecommerce_system.model.dto.AddToCartDto;
 import com.example.ecommerce_system.model.dto.CreateUserRequestDto;
+import com.example.ecommerce_system.model.dto.DeleteFromCartDto;
 import com.example.ecommerce_system.model.dto.UpdateUserRequestDto;
 import com.example.ecommerce_system.model.entity.Product;
 import com.example.ecommerce_system.model.entity.User;
@@ -88,6 +89,21 @@ public class UserController {
             List<Product> finalOrder = userService.placeOrderFromCart(userId);
             return ResponseEntity.ok(finalOrder);
         } catch (UserNotFoundException ex) {
+            return ResponseEntity.status(400).build();
+        } catch (Exception ex) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @DeleteMapping("/{userId}/cart") // same patchMaping not possible(in general idea) as for addtocart confusion
+    public ResponseEntity<User> deleteFromCart(@PathVariable("userId") int userId,
+                                               @RequestBody DeleteFromCartDto deleteFromCartDto) {
+        log.info("received a request to delete product with id{} from cart of user with id {}",
+                deleteFromCartDto.getProductId(), userId);
+        try {
+            User user = userService.deleteFromCart(userId, deleteFromCartDto);
+            return ResponseEntity.ok(user);
+        } catch (UserNotFoundException | ProductNotFoundException ex) {
             return ResponseEntity.status(400).build();
         } catch (Exception ex) {
             return ResponseEntity.status(500).build();

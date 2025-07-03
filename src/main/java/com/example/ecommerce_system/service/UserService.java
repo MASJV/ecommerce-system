@@ -6,6 +6,7 @@ import com.example.ecommerce_system.exception.ProductNotFoundException;
 import com.example.ecommerce_system.exception.UserNotFoundException;
 import com.example.ecommerce_system.model.dto.AddToCartDto;
 import com.example.ecommerce_system.model.dto.CreateUserRequestDto;
+import com.example.ecommerce_system.model.dto.DeleteFromCartDto;
 import com.example.ecommerce_system.model.dto.UpdateUserRequestDto;
 import com.example.ecommerce_system.model.entity.Product;
 import com.example.ecommerce_system.model.entity.User;
@@ -50,5 +51,13 @@ public class UserService {
 
     public List<Product> placeOrderFromCart(int userId) throws UserNotFoundException, ProductNotFoundException{
         return userRepository.placeOrderFromCart(userId);
+    }
+
+    public User deleteFromCart(int userId, final DeleteFromCartDto deleteFromCartDto) throws UserNotFoundException, ProductNotFoundException, InsufficientProductQuantityException{
+        final User user = userRepository.getAUser(userId);
+        // product repo import here or in user repo???(have done both here respectively but recommended)??
+        final Product product = productRepository.getAProduct(deleteFromCartDto.getProductId());
+        userRepository.deleteFromCart(user, product, deleteFromCartDto.getQuantity());
+        return user;
     }
 }
