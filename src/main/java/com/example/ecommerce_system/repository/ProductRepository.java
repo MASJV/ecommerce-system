@@ -46,4 +46,15 @@ public class ProductRepository implements IProductRepository{
         }
         throw new ProductNotFoundException("Product Not Found");
     }
+
+    @Override
+    public Product deleteAProduct(int productId) throws ProductNotFoundException {
+        for(Product product : productList) {
+            if(product.getProductId() == productId) {
+                productList.remove(product);
+                return product;
+            }
+        }
+        throw new ProductNotFoundException("Product Not Found");
+    }
 }

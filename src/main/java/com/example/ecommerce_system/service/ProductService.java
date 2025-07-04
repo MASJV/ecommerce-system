@@ -22,6 +22,10 @@ public class ProductService {
         return productRepository.getAllProducts();
     }
 
+    public Product getAProduct(int productId) throws ProductNotFoundException {
+        return productRepository.getAProduct(productId);
+    }
+
     public Product createAProduct(final CreateProductRequestDto createProductRequestDto) throws ProductNotFoundException {
         final Product product = new Product(createProductRequestDto.getName(), createProductRequestDto.getDescription(),
                 createProductRequestDto.getQuantity());
@@ -32,5 +36,9 @@ public class ProductService {
     public Product updateAProduct(int productId, final UpdateProductRequestDto updateProductRequestDto) throws ProductNotFoundException{
         return productRepository.updateAProduct(productId, updateProductRequestDto.getName(), updateProductRequestDto.getDescription(),
                 updateProductRequestDto.getQuantity());
+    }
+
+    public Product deleteAProduct(int productId) throws ProductNotFoundException{
+        return productRepository.deleteAProduct(productId);
     }
 }

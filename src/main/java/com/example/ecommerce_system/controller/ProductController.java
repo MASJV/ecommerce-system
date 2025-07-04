@@ -26,6 +26,19 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
+    @GetMapping("/{productId}")
+    public ResponseEntity<Product> getAProduct(@PathVariable("productId") int productId) {
+        log.info("received a request to product with id {} ", productId);
+        try {
+            Product product = productService.getAProduct(productId);
+            return ResponseEntity.ok(product);
+        } catch (ProductNotFoundException ex) {
+            return ResponseEntity.status(400).build();
+        } catch (Exception ex) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Product> createAProduct(@RequestBody CreateProductRequestDto createProductRequestDto) {
         log.info("received a request to create a product with body {} ", createProductRequestDto);
@@ -49,6 +62,19 @@ public class ProductController {
         } catch (ProductNotFoundException ex) {
             return ResponseEntity.status(400).build();
         } catch(Exception ex) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Product> deleteAProduct(@PathVariable("productId") int productId) {
+        log.info("received a request to delete a product with id {} {}", productId);
+        try {
+            Product product = productService.deleteAProduct(productId);
+            return ResponseEntity.ok(product);
+        } catch (ProductNotFoundException ex) {
+            return ResponseEntity.status(400).build();
+        } catch (Exception ex) {
             return ResponseEntity.status(500).build();
         }
     }

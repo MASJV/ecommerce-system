@@ -11,5 +11,6 @@ public interface IProductRepository {
     Product getAProduct(int productId) throws ProductNotFoundException;
     void createAProduct(Product product);
     Product updateAProduct(int productId, String name, String description, int quantity) throws ProductNotFoundException;
+    Product deleteAProduct(int productId) throws ProductNotFoundException;
 }
 
