@@ -26,6 +26,14 @@ public class UserService {
     private final IUserRepository userRepository;
     private final IProductRepository productRepository;
 
+    public List<User> getAllusers() {
+        return userRepository.getAllUser();
+    }
+
+    public User getAUser(int userId) throws UserNotFoundException{
+        return userRepository.getAUser(userId);
+    }
+
     public User createAUser(final CreateUserRequestDto createUserRequestDto) throws UserNotFoundException {
         final User user = new User(createUserRequestDto.getName(), createUserRequestDto.getBirthYear(),
                                     createUserRequestDto.getCountry());

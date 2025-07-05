@@ -9,6 +9,7 @@ import com.example.ecommerce_system.model.entity.User;
 import java.util.List;
 
 public interface IUserRepository {
+    List<User> getAllUser();
     User getAUser(int userId) throws UserNotFoundException;
     void createAUser(User user);
     User deleteAUser(int userId) throws UserNotFoundException;

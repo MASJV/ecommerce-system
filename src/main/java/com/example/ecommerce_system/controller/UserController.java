@@ -26,6 +26,25 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        log.info("received a request to get all users ");
+        return ResponseEntity.ok(userService.getAllusers());
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getAUser(@PathVariable("userId") int userId) {
+        log.info("received a request to get a user with id {} ", userId);
+        try {
+            User user = userService.getAUser(userId);
+            return ResponseEntity.ok(user);
+        } catch (UserNotFoundException ex) {
+            return ResponseEntity.status(400).build();
+        } catch (Exception ex) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<User> createAUser(@RequestBody CreateUserRequestDto createUserRequestDto) {
         log.info("received a request to create a user with body {} ", createUserRequestDto);

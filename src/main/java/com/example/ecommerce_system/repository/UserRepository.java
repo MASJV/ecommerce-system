@@ -24,6 +24,11 @@ public class UserRepository implements IUserRepository{
     }
 
     @Override
+    public List<User> getAllUser() {
+        return userList;
+    }
+
+    @Override
     public User getAUser(int userId) throws UserNotFoundException {
         for(User user : userList) {
             if(user.getUserId() == userId) {
@@ -62,10 +67,14 @@ public class UserRepository implements IUserRepository{
 
     @Override
     public void addToCart(User user, Product product, int quantity) throws InsufficientProductQuantityException{ // alternate way is to override .equals() method
+        // when requested quantity is greater(exception)
         if(quantity > product.getQuantity()) throw new InsufficientProductQuantityException("Requested quantity not available in stock");
         boolean found = false;
         for(Product cartProduct : user.getCart()) {
             if(cartProduct.getProductId() == product.getProductId()) {
+                if(cartProduct.getQuantity() >= product.getQuantity()) { // when cumulative quanity is greater(exception)
+                    throw new InsufficientProductQuantityException("Requested quantity not available in stock");
+                }
                 cartProduct.setQuantity(cartProduct.getQuantity() + quantity);
                 found = true;
                 break;
@@ -73,7 +82,10 @@ public class UserRepository implements IUserRepository{
         }
         if(!found) {
             Product cartProduct = new Product(product.getProductId(), product.getName(), product.getDescription(),
-                    quantity, product.getAvgRating(), product.getTotalRating());
+                    quantity, product.getReviews());
+            // set cartProduct id to productid;
+            cartProduct.setAvgRating(product.getAvgRating());
+            cartProduct.setTotalRating(product.getTotalRating());
             user.addToCart(cartProduct);
         }
     }
