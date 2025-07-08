@@ -19,7 +19,7 @@ public class User {
     private int birthYear; //do it final
     private String country; // do it final
     final private List<Product> cart;
-    final private List<Product> order;
+    final private List<Product> orderHistory;
     //placeOrderCart -> endpoint for cart ordering
     //placeOrderorder -> endpoint for direct ordering
 
@@ -29,11 +29,15 @@ public class User {
         this.birthYear = birthYear;
         this.country = country;
         this.cart = new ArrayList<>();
-        this.order = new ArrayList<>();
+        this.orderHistory = new ArrayList<>();
     }
 
     public void addToCart(Product product) {
         cart.add(product);
+    }
+
+    public void addToOrderHistory(Product product) {
+        orderHistory.add(product);
     }
 
 }

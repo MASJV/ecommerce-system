@@ -83,7 +83,7 @@ public class UserRepository implements IUserRepository{
         if(!found) {
             Product cartProduct = new Product(product.getProductId(), product.getName(), product.getDescription(),
                     quantity, product.getReviews());
-            // set cartProduct id to productid;
+            // sets cartProduct id to productid
             cartProduct.setAvgRating(product.getAvgRating());
             cartProduct.setTotalRating(product.getTotalRating());
             user.addToCart(cartProduct);
@@ -100,6 +100,9 @@ public class UserRepository implements IUserRepository{
             // the actual product quantity should decrease by cart product quantity
         }
         List<Product> order = new ArrayList<>(user.getCart());
+        for (Product p : user.getCart()) {
+            user.addToOrderHistory(p);
+        }
         user.getCart().clear();
         return order;
     }
