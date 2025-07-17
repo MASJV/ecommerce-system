@@ -3,13 +3,16 @@ package com.example.ecommerce_system.service;
 import com.example.ecommerce_system.exception.ProductNotFoundException;
 import com.example.ecommerce_system.exception.ReviewAlreadyExistsException;
 import com.example.ecommerce_system.exception.ReviewNotFoundException;
+import com.example.ecommerce_system.exception.UserNotFoundException;
 import com.example.ecommerce_system.model.dto.CreateReviewRequestDto;
 import com.example.ecommerce_system.model.dto.DeleteReviewRequestDto;
 import com.example.ecommerce_system.model.dto.UpdateReviewRequestDto;
 import com.example.ecommerce_system.model.entity.Product;
 import com.example.ecommerce_system.model.entity.Review;
+import com.example.ecommerce_system.model.entity.User;
 import com.example.ecommerce_system.repository.ProductRepository;
 import com.example.ecommerce_system.repository.ReviewRepository;
+import com.example.ecommerce_system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ import java.util.List;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     public List<Review> getAllReviews() {
         return reviewRepository.getAllReviews();
@@ -32,12 +36,24 @@ public class ReviewService {
         return reviewRepository.getAReview(reviewId);
     }
 
-    public Review createAReview(final CreateReviewRequestDto createReviewRequestDto) throws ProductNotFoundException, ReviewAlreadyExistsException {
+    public Review createAReview(final CreateReviewRequestDto createReviewRequestDto) throws ProductNotFoundException, ReviewAlreadyExistsException, UserNotFoundException{
         final List<Review> list = reviewRepository.getAllReviews();
         for(Review review : list) {
             if(review.getUserId() == createReviewRequestDto.getUserId() && review.getProductId() == createReviewRequestDto.getProductId()) {
                 throw new ReviewAlreadyExistsException("Review already exists");
             }
+        }
+
+        boolean throwError = false;
+        final List<User> users = userRepository.getAllUser();
+        for(User user : users) {
+            if(user.getUserId() == createReviewRequestDto.getUserId()) {
+                throwError = true;
+                break;
+            }
+        }
+        if(!throwError) {
+            throw new UserNotFoundException("User does not exist");
         }
 
         final Review review = new Review(createReviewRequestDto.getProductId(), createReviewRequestDto.getUserId(),

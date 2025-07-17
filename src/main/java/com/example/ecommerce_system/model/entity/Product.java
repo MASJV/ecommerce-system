@@ -46,12 +46,14 @@ public class Product { // price to be added
     public void addReview(Review review) {
        reviews.add(review);
        // expression to calculate avgRating
+        avgRating = ((avgRating * totalRating) + review.getRating()) / (totalRating + 1);
         totalRating += 1;
     }
 
     public void deleteReview(Review review) {
-       reviews.remove(review); // without this also works right!!!
+       reviews.remove(review);
         // expression to calculate avgRating
+        avgRating = ((avgRating * totalRating) - review.getRating()) / (totalRating - 1);
         totalRating -= 1;
     }
 

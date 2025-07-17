@@ -1,6 +1,9 @@
 package com.example.ecommerce_system.controller;
 
+import com.example.ecommerce_system.exception.ProductNotFoundException;
+import com.example.ecommerce_system.exception.ReviewAlreadyExistsException;
 import com.example.ecommerce_system.exception.ReviewNotFoundException;
+import com.example.ecommerce_system.exception.UserNotFoundException;
 import com.example.ecommerce_system.model.dto.CreateReviewRequestDto;
 import com.example.ecommerce_system.model.dto.DeleteReviewRequestDto;
 import com.example.ecommerce_system.model.dto.UpdateProductRequestDto;
@@ -47,7 +50,10 @@ public class ReviewController {
         try {
             Review review = reviewService.createAReview(createReviewRequestDto);
             return ResponseEntity.ok(review);
-        } catch (Exception ex) { // is this perfect, changes in userController as well then. no Review ex one only general
+        } catch(ProductNotFoundException | ReviewAlreadyExistsException | UserNotFoundException ex) {
+            return ResponseEntity.status(400).build();
+        }
+        catch (Exception ex) { // is this perfect, changes in userController as well then. no Review ex one only general
             return ResponseEntity.status(500).build();
         }
     }
