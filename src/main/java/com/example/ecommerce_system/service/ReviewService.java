@@ -1,9 +1,6 @@
 package com.example.ecommerce_system.service;
 
-import com.example.ecommerce_system.exception.ProductNotFoundException;
-import com.example.ecommerce_system.exception.ReviewAlreadyExistsException;
-import com.example.ecommerce_system.exception.ReviewNotFoundException;
-import com.example.ecommerce_system.exception.UserNotFoundException;
+import com.example.ecommerce_system.exception.*;
 import com.example.ecommerce_system.model.dto.CreateReviewRequestDto;
 import com.example.ecommerce_system.model.dto.DeleteReviewRequestDto;
 import com.example.ecommerce_system.model.dto.UpdateReviewRequestDto;
@@ -37,6 +34,19 @@ public class ReviewService {
     }
 
     public Review createAReview(final CreateReviewRequestDto createReviewRequestDto) throws ProductNotFoundException, ReviewAlreadyExistsException, UserNotFoundException{
+        // only the user who has a history can add a review.
+        final User user1 = userRepository.getAUser(createReviewRequestDto.getUserId()); // why not user as local down??
+        final List<Product> orderHistory = user1.getOrderHistory();
+        boolean throwError = true;
+        for(Product product : orderHistory) {
+            if(product.getProductId() == createReviewRequestDto.getProductId()) {
+                throwError = false;
+            }
+        }
+        if(throwError) {
+            throw new ProductNotOrderedException("Cannot leave a review: the user has not ordered this product.");
+        }
+
         final List<Review> list = reviewRepository.getAllReviews();
         for(Review review : list) {
             if(review.getUserId() == createReviewRequestDto.getUserId() && review.getProductId() == createReviewRequestDto.getProductId()) {
@@ -44,7 +54,7 @@ public class ReviewService {
             }
         }
 
-        boolean throwError = false;
+        throwError = false;
         final List<User> users = userRepository.getAllUser();
         for(User user : users) {
             if(user.getUserId() == createReviewRequestDto.getUserId()) {

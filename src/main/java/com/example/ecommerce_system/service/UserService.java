@@ -52,6 +52,10 @@ public class UserService {
     public User addToCart(int userId, final AddToCartDto addToCartDto) throws UserNotFoundException, ProductNotFoundException, InsufficientProductQuantityException {
         final Product product = productRepository.getAProduct(addToCartDto.getProductId());
         final int quantity = addToCartDto.getQuantity();
+        // check if requested quantity <= actual quantity of product
+        if(quantity > product.getQuantity()) {
+            throw new InsufficientProductQuantityException("Requested quantity is unavailable");
+        }
         final User user = userRepository.getAUser(userId);
         userRepository.addToCart(user, product, quantity);
         return user;
