@@ -44,8 +44,10 @@ A robust **backend system** for e-commerce, enabling the management of products,
    ```
 
 2. **Verify Java and build tool versions**
+    ```
    java -version
    mvn -v # or gradle -v
+   ```
 
 
 3. **Build the project**
@@ -120,6 +122,7 @@ _Request and response bodies use standard DTOs as in your code._
 | ProductNotOrderedException           | Review attempted without a prior order          |
 | InsufficientProductQuantityException | Cart/order quantity exceeds available stock     |
 | CartEmptyException                   | (Reserved for shop-cart errors)                 |
+| InvalidRatingException               | Thrown when a review rating is outside the valid range (e.g., not between 0 and 10)                 |
 
 _Status codes: 200 (OK), 400 (Bad Request), 404 (Not Found), 500 (Server Error)._
 
@@ -136,9 +139,9 @@ _Status codes: 200 (OK), 400 (Bad Request), 404 (Not Found), 500 (Server Error).
 
 ## 🧪 Postman Collection
 
-You’ve thoroughly tested all API endpoints using Postman.  
-🔗 **Paste your published Postman collection link below:**
-
+Thoroughly tested all API endpoints using Postman.  
+🔗 **Published Postman collection link below:**
+https://documenter.getpostman.com/view/44008443/2sB3BBqXPe
 
 
 ---
