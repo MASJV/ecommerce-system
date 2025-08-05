@@ -86,26 +86,27 @@ A robust **backend system** for e-commerce, enabling the management of products,
 
 _All API paths are prefixed with `/api/v1`._
 
-| Section  | Method | Endpoint | Description                |
-|----------|--------|----------|----------------------------|
-| Product  | GET    | /products | Get all products          |
-|          | GET    | /products/{id} | Get product by ID         |
-|          | POST   | /products | Create product            |
-|          | PATCH  | /products/{id} | Update product           |
-|          | DELETE | /products/{id} | Delete product           |
-| User     | GET    | /users    | Get all users             |
-|          | GET    | /users/{id} | Get user by ID             |
-|          | POST   | /users    | Create user               |
-|          | PATCH  | /users/{id} | Update user name           |
-|          | DELETE | /users/{id} | Delete user                |
-|          | PATCH  | /users/{id}/cart | Add to cart             |
-|          | POST   | /users/{id}/cart/orderCart | Place cart order |
-|          | DELETE | /users/{id}/cart | Remove from cart         |
-| Review   | GET    | /reviews  | Get all reviews           |
-|          | GET    | /reviews/{id} | Get review by ID         |
-|          | POST   | /reviews  | Create review             |
-|          | PATCH  | /reviews/{id} | Update review             |
-|          | DELETE | /reviews/{id} | Delete review             |
+| Section  | Method | Endpoint                             | Description                |
+|----------|--------|------------------------------------|----------------------------|
+| Product  | GET    | `/api/v1/products`                  | Get all products          |
+|          | GET    | `/api/v1/products/:productId`      | Get product by ID         |
+|          | POST   | `/api/v1/products`                  | Create product            |
+|          | PATCH  | `/api/v1/products/:productId`      | Update product            |
+|          | DELETE | `/api/v1/products/:productId`      | Delete product            |
+| User     | GET    | `/api/v1/users`                    | Get all users             |
+|          | GET    | `/api/v1/users/:userId`             | Get user by ID            |
+|          | POST   | `/api/v1/users`                    | Create user               |
+|          | PATCH  | `/api/v1/users/:userId`             | Update user name          |
+|          | DELETE | `/api/v1/users/:userId`             | Delete user               |
+|          | PATCH  | `/api/v1/users/:userId/cart`        | Add product to cart       |
+|          | POST   | `/api/v1/users/:userId/cart/orderCart` | Place order from cart |
+|          | DELETE | `/api/v1/users/:userId/cart`        | Remove product from cart  |
+| Review   | GET    | `/api/v1/reviews`                  | Get all reviews           |
+|          | GET    | `/api/v1/reviews/:reviewId`         | Get review by ID          |
+|          | POST   | `/api/v1/reviews`                  | Create review             |
+|          | PATCH  | `/api/v1/reviews/:reviewId`         | Update review             |
+|          | DELETE | `/api/v1/reviews/:reviewId`         | Delete review             |
+
 
 _Request and response bodies use standard DTOs as in your code._
 
