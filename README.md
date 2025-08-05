@@ -38,8 +38,10 @@ A robust **backend system** for e-commerce, enabling the management of products,
 ## 🚀 Setup Instructions
 
 1. **Clone the repository**
+    ```
    git clone https://github.com/MASJV/ecommerce-system.git
    cd ecommerce-system
+   ```
 
 2. **Verify Java and build tool versions**
    java -version
