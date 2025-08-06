@@ -10,7 +10,6 @@
 6. [⚠️ Exception Handling](#exception-handling)
 7. [📦 Data Models](#data-models)
 8. [🧪 Postman Collection](#postman-collection)
-9. [🤝 Contribution Guidelines](#contribution-guidelines)
 
 ---
 
@@ -108,7 +107,7 @@ _All API paths are prefixed with `/api/v1`._
 |          | DELETE | `/api/v1/reviews/:reviewId`         | Delete review             |
 
 
-_Request and response bodies use standard DTOs as in your code._
+_Request and response bodies use standard DTOs as in the code._
 
 ---
 
@@ -141,7 +140,7 @@ _Status codes: 200 (OK), 400 (Bad Request), 404 (Not Found), 500 (Server Error).
 ## 🧪 Postman Collection
 
 Thoroughly tested all API endpoints using Postman.  
-🔗 **Published Postman collection link below:**
+🔗 **Published Postman collection link:**
 https://documenter.getpostman.com/view/44008443/2sB3BBqXPe
 
 
